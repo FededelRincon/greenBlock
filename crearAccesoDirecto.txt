@@ -1,0 +1,8 @@
+Pasos para crear un acceso directo en Windows:
+Haz clic derecho en el escritorio y selecciona Nuevo > Acceso directo.
+
+En la ventana que aparece, donde te pide la ubicación del elemento, escribe el siguiente comando (o pégalo directamente):
+
+
+C:\Windows\System32\cmd.exe /k "cd /d E:\www\090 - greenBlock && node push-script.js"
+
