@@ -1,0 +1,94 @@
+//// codigo de push-script.js
+
+const simpleGit = require('simple-git');
+const path = require('path');
+const fs = require('fs');
+
+// Define el path donde está tu repositorio
+const repoPath = path.resolve(__dirname); 
+const git = simpleGit(repoPath);
+
+// Define el archivo que se va a modificar (puedes usar cualquier archivo)
+const filePath = path.join(repoPath, 'update-log.txt');
+
+// Obtiene la fecha actual en formato ISO
+const fechaDeHoy = new Date().toISOString();
+const logMessage = `fechaDeHoy: '${fechaDeHoy}'\n`;
+
+// Agrega la fecha actual al archivo (si no existe el archivo, lo crea)
+fs.appendFileSync(filePath, logMessage, 'utf8');
+
+// Paso 1: Agregar los cambios
+git.add('.')
+   .then(() => {
+       // Paso 2: Hacer commit con la fecha de hoy en el mensaje
+       return git.commit(`Commit automático: ${fechaDeHoy}`);
+   })
+   .then(() => {
+       // Paso 3: Hacer push al repositorio remoto
+       return git.push('origin', 'main');
+   })
+   .then(() => {
+       console.log('¡Cambios subidos a GitHub!');
+   })
+   .catch(err => console.error('Error al hacer el push:', err));
+
+////
+
+Pasos completos:
+Crear una carpeta para el proyecto:
+
+Crea una nueva carpeta en tu computadora donde quieras trabajar.
+Por ejemplo: mkdir mi-repo-github y entra en esa carpeta: cd mi-repo-github.
+Inicializar el repositorio de Git:
+
+Inicializa el repositorio local:
+bash
+Copiar código
+git init
+Esto creará un nuevo repositorio Git en esa carpeta.
+Crear el archivo push-script.js:
+
+Dentro de esa carpeta, crea un archivo llamado push-script.js y copia el código que te pasé antes.
+Instalar dependencias (simple-git):
+
+En tu carpeta, debes inicializar un proyecto Node.js y luego instalar simple-git:
+bash
+Copiar código
+npm init -y   # Inicializa el proyecto Node.js
+npm install simple-git  # Instala la librería simple-git
+Vincular tu carpeta local con el repositorio de GitHub:
+
+Crea un repositorio nuevo en GitHub.
+Luego vincula tu repositorio local con el remoto:
+bash
+Copiar código
+git remote add origin https://github.com/tu-usuario/mi-repo-github.git
+Esto asocia tu carpeta local con el repositorio en GitHub.
+Hacer el primer commit y push:
+
+Antes de usar el script, debes hacer un primer commit manual para que todo esté correctamente configurado:
+bash
+Copiar código
+git add .
+git commit -m "Initial commit"
+git push origin main
+Ejecutar el script cuando quieras actualizar tu GitHub:
+
+Cada vez que quieras agregar un nuevo "cuadradito verde", ejecuta el script:
+bash
+Copiar código
+node push-script.js
+¿Qué hace el script?
+Modifica automáticamente un archivo (update-log.txt) para que se registre un cambio (añade la fecha actual).
+Hace git add . para añadir todos los cambios.
+Hace un commit con un mensaje que incluye la fecha de hoy.
+Realiza un push al repositorio remoto para que el cambio quede reflejado en GitHub.
+Resumen de los pasos que debes hacer:
+Crear una carpeta y navegar a ella (mi-repo-github).
+Ejecutar git init.
+Crear el archivo push-script.js y pegar el código del script.
+Ejecutar npm init -y y luego npm install simple-git para las dependencias.
+Vincular tu repositorio local con GitHub usando git remote add.
+Hacer un primer commit y push manual (git add ., git commit, git push).
+Ejecutar node push-script.js cada vez que quieras hacer un commit y push automático.
